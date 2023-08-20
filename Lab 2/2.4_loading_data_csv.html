@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+    
+	<title>Task 2.4 D3 Loading Data from CSV</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <p id ="chart"></p>
+
+<script>
+// D3 code goes here
+// using variables to specify SVG measurements
+    var w = 500;
+    var h = 100;
+    var barPadding = 2;
+
+function barChart(){
+//Create SVG element
+    var svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i) {return i * (w / wombatSightings.length);}) // here
+        .attr("y", function(d) { return h - (d.wombats * 4);}) // here
+        .attr("width", (w / dataset.length - barPadding)) // hree
+        .attr("height", 100 * 4);
+}
+
+// Initialization the process when the file is loaded.
+function init(){
+    d3.csv("Task_2.4_data.csv").then(function(data) { 
+        console.log(data); 
+        wombatSightings = data;
+        barChart(wombatSightings);
+    });
+}
+
+window.onload = init;
+
+    </script>
+
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>

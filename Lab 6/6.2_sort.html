@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+
+	<title>Task 6.2 D# Sort</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+	<p><button type="button" id="add">Add</button>
+		<button type="button" id="remove">Remove</button>
+		<button type="button" id="sort">Sort</button></p></p>
+	
+	<script>
+// D3 code goes here
+// using variables to specify height and width of SVG
+	var w = 500;
+	var h = 100;
+	
+	var dataset = [24, 10, 29, 19, 8, 15, 20, 12, 9, 6, 21, 28]; // added new data
+	
+	var xScale = d3.scaleBand() // ordinal scale method
+				.domain(d3.range(dataset.length)) // calculate the range of the domain
+				.rangeRound([0, w]) // round bandwidth to whole numbers
+				.paddingInner(0.05); // generates a padding value of 5% of the bandwidth
+	
+	var yScale = d3.scaleLinear()
+				.domain([0, d3.max(dataset)])
+				.range([0, h]);
+	
+// create SVG element
+	var svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+	
+// create the bar graph
+	svg.selectAll("rect")
+		.data(dataset)
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {return xScale(i);})
+		.attr("y", function(d) {return h - yScale(d);})
+		.attr("width", xScale.bandwidth()) // calculates the width of the bars
+		.attr("height", function(d) {return yScale(d);})
+		.attr("fill", function(d) {return "rgb(128, 128, 128, " + Math.round(d * 10) + ")";}) // rounding the numbers so they aren't decimal
+        .on("mouseover", function(d){ // .on() to trigger the effect
+            
+        d3.select(this).attr("fill", "orange"); // change the colour of the selected rectangle
+
+  		var xPosition = parseFloat(d3.select(this).attr("x")) // identify the x positions of where the text appears
+  		var yPosition = parseFloat(d3.select(this).attr("y")) // identify the y positions of where the text appears
+        
+// append the text into position
+  		svg.append("text")
+  			.attr("id", "tooltip")
+  			.attr("x", xPosition)
+  			.attr("y", yPosition)
+  			.attr("text-anchor", "middle")
+  			.attr("font-family", "sans-serif")
+  			.attr("font-size", "11px")
+  			.attr("font-weight", "bold")
+  			.attr("fill", "black")
+  			.text(d);
+  	})
+
+// mouseout to return the colour of the rectangle back
+  	.on("mouseout", function(d){
+  		d3.select("#tooltip").remove();
+  		d3.select(this).attr("fill", function(d) {return "rgb(128, 128, 128, " + Math.round(d * 10) + ")";});});
+
+// update the data when he button is clicked			
+	d3.select("#add").on("click", function() {
+
+	const maxValue = 25;
+
+// new values for dataset
+	var numValues = dataset.length; // value of original dataset length
+		dataset = []; // initialize an empty array
+		for (var i = 0; i < numValues; i++) { // loop numValues
+	var newNumber = Math.floor(Math.random() * maxValue); // generate random integer
+		dataset.push(newNumber);} // add new number to array
+		xScale.domain(d3.range(dataset.length));
+		yScale.domain([0, d3.max(dataset)]);
+
+	var bars = svg.selectAll("rect").data(dataset)
+
+// update the bar graph
+	bars.enter() // add extra new elements if reqired
+		.append("rect") // creates a new rect
+		.attr("x", w) //set the x value
+		.attr("y", function(d) {return h - yScale(d);})  // update the y value
+        .on("mouseover", function(d){ // .on() to trigger the effect.
+		
+        d3.select(this).attr("fill", "orange"); // change the colour of the selected rectangle
+        
+  		var xPosition = parseFloat(d3.select(this).attr("x")) // identify the x positions of where the text appears
+  		var yPosition = parseFloat(d3.select(this).attr("y")) // identify the y positions of where the text appears
+
+// append the text into position
+  		svg.append("text")
+  			.attr("id", "tooltip")
+  			.attr("x", xPosition)
+  			.attr("y", yPosition)
+  			.attr("text-anchor", "middle")
+  			.attr("font-family", "sans-serif")
+  			.attr("font-size", "11px")
+  			.attr("font-weight", "bold")
+  			.attr("fill", "black")
+  			.text(d);
+  	})
+
+// mouseout to return the colour of the rectangle back
+  	.on("mouseout", function(d){
+  		d3.select("#tooltip").remove();
+  		d3.select(this).attr("fill", function(d) {return "rgb(128, 128, 128, " + Math.round(d * 10) + ")";});})
+		.merge(bars) // merges the selections 
+		.transition() // call a transition
+		.duration(500)
+		.attr("width", xScale.bandwidth()) // calculates the width of the bars
+		.attr("height", function(d) {return yScale(d);}) // updated the yScale height
+		.attr("fill", function(d) {return "rgb(128, 128, 128, " + Math.round(d * 10) + ")";})
+		.attr("x", function(d, i) {	return xScale(i);}) // update the x value
+		.attr("y", function(d) {return h - yScale(d);}) // update the yScale position
+		.attr("width", xScale.bandwidth()) // update the width value
+		.attr("height", function(d) {return yScale(d);}); // updated the yScale height
+	});
+
+// update the data when he button is clicked			
+	d3.select("#remove").on("click", function() {
+
+	const maxValue = 25;
+
+// new values for dataset
+	var numValues = dataset.length; // value of original dataset length
+		dataset = []; // initialize an empty array
+		for (var i = 0; i < numValues; i++) { // loop numValues
+	var newNumber = Math.floor(Math.random() * maxValue); // generate random integer
+		dataset.push(newNumber);} // add new number to array
+		xScale.domain(d3.range(dataset.length));
+		yScale.domain([0, d3.max(dataset)]);
+		dataset.shift(); // remove
+		
+	var bars = svg.selectAll("rect").data(dataset)
+
+// update the bar graph
+	bars.enter() // add extra new elements if reqired
+		.append("rect") // creates a new rect
+		.attr("x", w) //set the x value
+		.attr("y", function(d) {return h - yScale(d);})  // update the y value
+
+        .on("mouseover", function(d){ // .on() to trigger the effect.
+		
+        d3.select(this).attr("fill", "orange"); // change the colour of the selected rectangle
+        
+  		var xPosition = parseFloat(d3.select(this).attr("x")) // identify the x positions of where the text appears
+  		var yPosition = parseFloat(d3.select(this).attr("y")) // identify the y positions of where the text appears
+        
+// append the text into position
+  		svg.append("text")
+  			.attr("id", "tooltip")
+  			.attr("x", xPosition)
+  			.attr("y", yPosition)
+  			.attr("text-anchor", "middle")
+  			.attr("font-family", "sans-serif")
+  			.attr("font-size", "11px")
+  			.attr("font-weight", "bold")
+  			.attr("fill", "black")
+  			.text(d);
+  	})
+
+// mouseout to return the colour of the rectangle back
+  	.on("mouseout", function(d){
+  		d3.select("#tooltip").remove();
+  		d3.select(this).attr("fill", function(d) {return "rgb(128, 128, 128, " + Math.round(d * 10) + ")";});})    
+		.merge(bars) // merges the selections 
+		.transition() // call a transition
+		.duration(500)
+		.attr("width", xScale.bandwidth()) // calculates the width of the bars
+		.attr("height", function(d) {return yScale(d);}) // updated the yScale height
+		.attr("fill", function(d) {return "rgb(128, 128, 128, " + Math.round(d * 10) + ")";})
+		.attr("x", function(d, i) {	return xScale(i);}) // update the x value
+		.attr("y", function(d) {return h - yScale(d);}) // update the yScale position
+		.attr("width", xScale.bandwidth()) // update the width value
+		.attr("height", function(d) {return yScale(d);}); // updated the yScale height
+
+	bars.exit() // transsition the element to the right
+        .transition()
+        .duration(500)
+        .attr("x", w)
+        .remove();});
+
+	var sortBars = function() { // transition to see the sort occur
+
+    svg.selectAll("rect")
+		.sort(function(d, i) {return d3.ascending(d, i);}) // use D3 functions sort() and d3.ascending() to sort the data
+		.sort(function(d, i) {return d3.descending(d,i);}) // resort in the other direction by clicking the sort button again
+		.attr("x", function(d, i) {return xScale(i);});} // redrawn with new x values
+
+	d3.select("#sort").on("click", function() {sortBars();}); // button for the new sort function. Give it id=“sort” to set up an event listener for it
+	</script>
+		
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>

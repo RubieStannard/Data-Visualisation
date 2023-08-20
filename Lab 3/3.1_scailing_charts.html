@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+
+	<title>Task 3.1 D3 Scaling Your Charts</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <script>
+// D3 code goes here
+// using variables to specify height and width of SVG
+        var w = 700;
+        var h = 300;
+        var distance = 5;
+        var padding = 20;
+        var radius = 5;
+
+// loading the dataset
+    var dataset = [
+        [5, 20],
+        [480, 90],
+        [250, 50],
+        [100, 33],
+        [330, 95],
+        [410, 12],
+        [475, 44],
+        [25, 67],
+        [85, 21],
+        [220, 88],
+    ];
+
+// Create the scale for the x-axis
+    var xScale = d3.scaleLinear()
+                    .domain([d3.min(dataset, function(d) { return d[0];}),
+                d3.max(dataset, function(d) { return d[0];})]) // references first value in each subarray
+                    .range([padding, w - padding * 2]);
+
+
+// Create the scale for the y-axis
+    var yScale = d3.scaleLinear()
+                    .domain([d3.min(dataset, function(d){ return d[1];}),
+               d3.max(dataset, function(d) { return d[1];})]) // references second value in each subarray
+                    .range([h - padding, padding]);
+
+// Create the SVG element
+    var svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+    svg.selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) { return xScale(d[0]);}) // references scaled value
+        .attr("cy", function(d) { return yScale(d[1]);})
+        .attr("r", radius)
+        .attr("fill", "slategrey");
+
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .text(function(d) {return d[0] + "," + d[1];})
+        .attr("x", function(d) { return xScale(d[0]) + distance;})
+        .attr("y", function(d) { return yScale(d[1]);})
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "red");
+    </script>
+
+    <footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>

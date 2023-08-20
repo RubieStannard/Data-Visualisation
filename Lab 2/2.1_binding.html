@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+
+	<title>Task 2.1 D3 Data Binding</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <script>
+        // D3 methods
+        var dataset = [14, 5, 26, 23, 9];
+
+        d3.select("body").selectAll("p") // select the body of the document & selects all p
+        .data(dataset) // counts and prepares the data values
+        .enter() // creates a new place holder element for each bit of data
+        .append("p") // append a p element to the element selected previously
+        .text(function(d) { 
+            if (d > 10) { 
+                return "Warning: Joe watched " + d + " cat videos today"; 
+            } else {
+                return "Joe watched " + d + " cat videos today";
+            }
+        }) // Conditions for the paragraph
+        .style("color", function(d) { 
+            if (d > 10) {
+                return "red";
+            } else {
+                return "black";
+            }
+        }); // Conditions for the colour
+    </script>
+
+    <br>
+    <bf>
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer><br>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"	content="Data Visualisation Exercise 1"/>
+	<meta name="keywords"		  content="HTML, CSS"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+
+	<title>Task 1 HTML and CSS Demo Page</title>
+	<!-- use CSS style Header 1 and 2 -->
+	<!-- buttons are styled using CSS -->
+	<!-- padding adds space around the item -->
+<style>
+h1 {
+	color: black;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 30px;
+	font-family: Helvetica, sans-serif;
+}
+
+h2 {
+	color: black;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 25px;
+	font-family: Helvetica, sans-serif;
+}
+
+p {
+	font-family: Helvetica, sans-serif;
+	font-size: 20px;
+}
+
+ol {
+	font-family: Helvetica, sans-serif;
+	font-size: 20px;
+}
+
+img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width:800px;
+	height:474px;
+}
+
+figcaption {
+	font-style: italic;
+    text-align: center;
+	font-family: Helvetica, sans-serif;
+}
+
+div {
+	display: flex;
+	justify-content: center;
+}
+
+button {
+	background-color: #243b6f;
+	padding: 10px 15px;
+	border: none;
+	color: white;
+	font-family: Helvetica, sans-serif;
+	margin-right: 25px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+footer {
+    text-align: center;
+	margin-top: 35px;
+	margin-bottom: 20px;
+	font-family: Helvetica, sans-serif;
+}
+</style>
+
+</head>
+
+<body>
+	<!-- Heading levels -->
+	<h1>Pets and the Pandemic</h1>
+	<h2>Author of Interesting Article</h2>
+
+	<!-- Paragraph -->
+	<!-- Bold and italics -->
+	<p>A report from Animal Medicines Australia (AMA) has found that many Australians took the opportunity to introduce a pet into their household during the pandemic. Their survey indicated that there was a <b>significant increase</b> in the percent of households taking in a new dog, fish, or bird. Their research also indicated that pets had a <em>number of positive influences</em> on their lives such as:</p>
+	
+	<!-- Ordered list -->
+<ol>
+	<li>companionship.</li>
+	<li>better mental health.</li>
+	<li>joy and happiness.</li>
+</ol>
+
+	<!-- display an image with appropriate alt text  -->
+	<!-- italicise figure caption and prevent figure caption from extending past image -->
+	<!-- link to another web page -->
+	<img src="Images/pet_ownership_in_australia_table.png" alt="Table of pet ownership in Australia during the pandemic">
+	<figcaption>Fig 1. Comparison of pet ownership in 2019 and 2021. Data source: <a href="https://animalmedicinesaustralia.org.au/wp-content/uploads/2021/08/AMAU005-PATP-Report21_v1.4_WEB.pdf">Animal Medicines Australia Report</a></figcaption>
+
+	<!-- Paragraph -->
+	<p>With the increase in pet ownership the AMA are encouraging policy makers to consider the needs of companion animals and their owners when considering rental, strata and body corporate regulations are well as accepting animals in public places and transport. In order to visualise some of the data found in the ‘<em>Pet ownership in Australia, 2019 vs 2021</em>’ table, I’ll be comparing the percent of the most popular pets owned by Australians in 2019 and 2021. </p>
+
+	<!-- div puts elements in a container -->
+<div>
+	<button onclick="document.getElementById('image').src='Images/2019.jpg'">2019</button>
+	<button onclick="document.getElementById('image').src='Images/2021.jpg'">2021</button>
+	<button onclick="document.getElementById('image').src='Images/both.jpg'">Both</button>
+</div>
+
+	<!-- JavaScript is used to allow the user to interact with the webpage to change their view  of the data (e.g., using buttons)  -->
+	<!-- figure captions update with chart image  -->
+	<!-- script defines the JavaScript part of the code -->
+	<!-- function is used when an action nees to be performed in JavaScript -->
+<script>
+	function chart2019() {
+		document.getElementById('image').src='Images/2019.jpg';
+		document.getElementById('figcap').figcap2.innerHTML = "Fig 2. Percent of most popular pets owned by Australians in 2019."
+	}
+
+	function chart2021() {
+		document.getElementById('image').src='Images/2021.jpg';
+		document.getElementById('figcap').figcap3.innerHTML = "Fig 3. Percent of most popular pets owned by Australians in 2021."
+	}
+
+	function chartboth() {
+		document.getElementById('image').src='Images/both.jpg';
+		document.getElementById('figcap').figcap4.innerHTML = "Fig 4. Percent of most popular pets owned by Australians in 2019 and 2021."
+	}
+</script>
+
+	<!-- images have appropriate alt text  -->
+	<!-- id attribute identifies a unique element  -->
+	<img id="image" src="Images/2019.jpg" alt="Bar chart for 2019 data">
+	<figcaption id="figcap">Fig 2. Percent of most popular pets owned by Australians in 2019.</figcaption>
+
+	<!-- Footer add CSS styling -->
+	<footer>COS30045 - Data Visualisation. Semester 1, 2023</footer>
+
+</body>
+</html>

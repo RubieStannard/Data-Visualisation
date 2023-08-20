@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+
+	<title>Task 2.3 D3 Scatter Plot</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <script>
+// D3 code goes here
+// using variables to specify height and width of SVG
+        var w = 600;
+        var h = 100;
+        var distance = 5;
+
+// loading the dataset
+    var dataset = [
+        [5, 20],
+        [480, 90],
+        [250, 50],
+        [100, 33],
+        [330, 95],
+        [410, 12],
+        [475, 44],
+        [25, 67],
+        [85, 21],
+        [220, 88],
+    ];
+
+// Create the SVG element
+    var svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+    svg.selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {return d[0];})
+        .attr("cy", function(d) {return d[1];})
+        .attr("r", 5)
+        .attr("fill", "slategrey");
+
+// creating the text for the dots
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .text(function(d) {return d[0] + "," + d[1];})
+        .attr("x", function(d) {return d[0] + distance;})
+        .attr("y", function(d) {return d[1];})
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "red");
+    </script>
+
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>

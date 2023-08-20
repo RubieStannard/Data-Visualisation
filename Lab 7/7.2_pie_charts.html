@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+    
+	<title>Task 7.2 D3 Pie Charts</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <p id ="chart"></p>
+
+<script>
+// D3 code goes here
+// using variables to specify SVG measurements
+    var w = 600;
+    var h = 300;
+    var padding = 20;
+    var dataset = [24, 10, 29, 19, 8, 15, 20, 12, 9, 6, 21, 28];
+
+    var outerRadius = Math.min(w, h) /2;
+    var innerRadius = 0;
+
+    var colour = d3.scaleOrdinal(d3.schemeCategory10); // attach the colour fill
+
+    var arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+
+    var pie = d3.pie();
+
+// create SVG element
+   var svg = d3.select("body")
+               .append("svg")
+               .attr("width", w)
+               .attr("height", h);
+
+    console.log(pie(dataset));
+
+// set up arcs
+    var arcs = svg.selectAll("g.arc")
+			    .data(pie(dataset))
+			    .enter()
+			    .append("g")
+			    .attr("class", "arc")
+			    .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
+ 
+// draw the arcs
+    arcs.append("path")
+        .attr("fill", function(d, i) {return colour(i);})
+        .attr("d", function(d, i) {return arc(d, i);});
+
+// add text labels
+    arcs.append("text")
+        .attr("transform", function(d) {return "translate(" + arc.centroid(d) + ")";})
+        .text(function(d) {return d.value;});
+    </script>
+
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>

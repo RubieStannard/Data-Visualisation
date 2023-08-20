@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+    
+	<title>Task 7.1 D3 Line and Area Charts</title>
+
+   <script src="https://d3js.org/d3.v6.min.js"></script>
+<style>
+.line {
+   fill: none;
+   stroke: slategrey;
+   stroke-width: 0.5;
+}
+      
+.halfMillionMarks {
+   stroke: red;
+   stroke-dasharray: 2, 3;
+}
+      
+.halfMilLabel{
+   font-family: Arial, sans-serif;
+   font-size: 12px;
+   fill: red;
+}
+      
+.area{
+   fill: slategrey;
+}
+</style>
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <p id ="chart"></p>
+
+<script>
+// D3 code goes here
+// using variables to specify SVG measurements
+   var w = 600;
+   var h = 300;
+   var padding = 20;
+
+   var dataset;
+// Initialization the process when the file is loaded
+   d3.csv("Unemployment_78-95.csv", function(d){return {
+           date: new Date(+d.year, +d.month - 1),
+           number: +d.number
+       };})
+       .then(function(data){
+       dataset = data;
+       lineChart(dataset);
+       console.table(dataset, ["date", "number"]);
+   });
+
+   function lineChart(dataset){
+
+//Create SVG element
+   var svg = d3.select("#chart")
+               .append("svg")
+               .attr("width", w)
+               .attr("height", h);
+   
+   var xScale = d3.scaleTime() // for xScale date
+                  .domain([d3.min(dataset, function(d){return d.date;}),d3.max(dataset,function(d){return d.date;})]) // refer to the column heading
+                  .range([0, w]);
+
+   var yScale = d3.scaleLinear()
+                  .domain([0, d3.max(dataset, function(d){return d.number;})]) // refer to the column heading
+                  .range([h, 0]);
+
+   var area = d3.area()
+               .x(function(d){return xScale(d.date);})
+               .y0(function(){return yScale.range()[0];}) // base line for area shape
+               .y1(function(d){return yScale(d.number);});
+
+   svg.append("path")
+      .datum(dataset)
+      .attr("class", "area")
+      .attr("d", area);
+
+// Define the x and y axis
+   var xAxis = d3.axisBottom()
+               .scale(xScale)
+               .ticks(6);
+
+   svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .call(xAxis);
+
+   var yAxis = d3.axisLeft()
+               .scale(yScale)
+               .ticks(6);
+
+   svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(" + padding + ",0)")
+      .call(yAxis);
+
+// add annotations
+   svg.append("line")
+      .attr("class", "line halfMillionMarks")
+// start of line
+      .attr("x1", padding)
+      .attr("x2", w)
+// end of line
+      .attr("y1", yScale(500000))
+      .attr("y2", yScale(500000));
+
+   svg.append("text")
+      .attr("class", "halfMilLabel")
+      .attr("x", padding + 20)
+      .attr("y", yScale(500000) - 7)
+      .text("Half a million unemployed");
+}
+    </script>
+
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>

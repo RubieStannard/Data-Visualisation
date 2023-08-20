@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="Data Visualisation Project Website" />
+	<meta name="keywords" content="HTML, CSS, JavaScript, D3" />
+	<meta name="author" content="Dilni De Silva & Rubie Stannard" />
+	<link rel="stylesheet" href="style/pakistan_radar.css">
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<title>COS30045 - Data Visualisation</title>
+</head>
+
+<body>
+	<header>
+		<section class="header-content">
+			<h1 class="header">COS30045 - Data Visualisation</h1>
+		</section>
+	</header>
+	<div class="navbar">
+		<a href="home.html">Home</a>
+		<div class="dropdown">
+		  <button class="dropbtn">Choropleth Maps
+			<i class="fa fa-caret-down"></i>
+		  </button>
+		  <div class="dropdown-content">
+			<a href="legal_choropleth.html">Legal Choropleth</a>
+      		<a href="illegal_choropleth.html">Illegal Choropleth</a>
+		  </div>
+		</div>
+		<div class="dropdown">
+			<button class="dropbtn">Radar Charts
+			  <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+			<a href="afghanistan_radar_chart.html">Afghanistan</a>
+			<a href="pakistan_radar_chart.html">Pakistan</a>
+			<a href="ukraine_radar_chart.html">Ukraine</a>
+			<a href="south_sudan_radar_chart.html">South Sudan</a>
+			<a href="dr_congo_radar_chart.html">DR Congo</a>
+			<a href="ethiopia_radar_chart.html">Ethiopia</a>
+			</div>
+		  </div>
+	  </div>
+<hr>
+	  <h1>Reasons for Displacement in Pakistan</h1>
+	  <hr>
+
+	<div id="chart"></div>
+	<div id="ledged"></div>
+
+	<hr>
+<p>This radar chart shows the number of people who have been displaved from their countries due to conflict and violence, natural disasters, and human trafficking over the time period of 2018 to 2021.</p>
+<hr>
+<table class="center">
+        <tr>
+          <th>Year</th>
+          <th>Conflict and Violence</th>
+          <th>Natural Disaters</th>
+          <th>Human Trafficking</th>
+        </tr>
+        <tr>
+          <td>2021</td>
+          <td>103600</td>
+          <td>70000</td>
+          <td>3816</td>
+        </tr>
+        <tr>
+          <td>2020</td>
+          <td>103600</td>
+          <td>829000</td>
+          <td>9512</td>
+        </tr>
+        <tr>
+          <td>2019</td>
+          <td>105800</td>
+          <td>100000</td>
+          <td>14172</td>
+        </tr>
+        <tr>
+          <td>2018</td>
+          <td>8135</td>
+          <td>8135</td>
+          <td>8135</td>
+        </tr>
+      </table>
+<p>This table contains the normalised data for Pakistan. These values are the values that were supposed to appear on the tooltips.</p>
+<hr>
+
+	<footer><p><em>Dilni De Silva & Rubie Stannard</em></p></footer>
+	<script src="javascript/pakistan_radar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description"	content="Data Visualisation"/>
+	<meta name="keywords"		  content="HTML, CSS, D3"/>
+	<meta name="author"			  content="Rubie Stannard"/>
+    
+	<title>Task 7.3 D3 Stacked Bar Chart</title>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <h1>The D3 Journey Starts Here</h1>
+   
+    <p id ="chart"></p>
+
+<script>
+// D3 code goes here
+// using variables to specify SVG measurements
+    var w = 300;
+    var h = 300;
+
+    var dataset = [{apples: 5, oranges: 10, grapes: 22},
+    {apples: 4, oranges: 12, grapes: 28},
+    {apples: 2, oranges: 19, grapes: 32},
+    {apples: 7, oranges: 23, grapes: 35},
+    {apples: 23, oranges: 17, grapes: 43},];
+
+    var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+// set up the arcs
+    var stack = d3.stack().keys(["apples", "oranges", "grapes"]);
+
+    var series = stack(dataset); // holds the array in a format that adds each category to the next
+
+// Create SVG element
+    var svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+    var xScale = d3.scaleBand()
+                    .domain(d3.range(dataset[0].length))
+                    .range([0, w])
+                    .paddingInner(0.05);
+
+    var yScale = d3.scaleLinear()
+                    .domain([0,d3.max(dataset, function (d) {return d.apples + d.oranges + d.grapes;}),])
+                    .range([h, 0]);
+
+// set up the groups
+    var groups = svg.selectAll("g")
+                    .data(series)
+                    .enter()
+                    .append("g")
+                    .style("fill", function (d, i) {return colors(i);});
+
+// draw the rectangles
+    var rects = groups.selectAll("rect")
+                    .data(function (d) {return d;})
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d, i) {return xScale(i);})
+                    .attr("y", function (d) {return yScale(d[1]);})
+                    .attr("height", function (d) {return yScale(d[0]) - yScale(d[1]);})
+                    .attr("width", xScale.bandwidth());
+    </script>
+
+	<footer style="color:grey">COS30045 Data Visualisation - Rubie Stannard</footer>
+
+</body>
+</html>
